@@ -28,13 +28,13 @@ void loop() {
   checkButton(btnStop, buttonPressedS, "S");
   checkButton(btnHazard, buttonPressedH, "H");
 
-  delay(50);  // Small delay to avoid excessive polling
+  delay(50);
 }
 
 void checkButton(int pin, bool &buttonState, const char *message) {
   if (digitalRead(pin) == LOW && !buttonState) {
-    delay(50);  // Debounce delay
-    if (digitalRead(pin) == LOW) {  // Check again to confirm
+    delay(50);
+    if (digitalRead(pin) == LOW) { 
       buttonState = true;
       BTSerial.println(message);
       Serial.println("BTN " + String(message));
