@@ -3,12 +3,12 @@
 
 SoftwareSerial BTSerial(2, 3);  // TX = 2, RX = 3
 
-#define LED_PIN_LEFT    4 //PIN CONNECTIONS IN ARDUINO
-#define LED_COUNT_LEFT  14 //NUMBER OF LED STRIPS BEING USED
+#define LED_PIN_LEFT    4
+#define LED_COUNT_LEFT  14
 #define LED_PIN_RIGHT   5
 #define LED_COUNT_RIGHT 14
 
-#define BLINK_DURATION 10000 //SO WE WANT TO BLINKING LED FOR 10 SECONDS
+#define BLINK_DURATION 10000 
 #define BLINK_INTERVAL 500
 
 char activeCommand = ' ';
@@ -38,14 +38,15 @@ void setup() {
   stripLeft.begin();
   stripRight.begin();
   stripLeft.show();
-  stripRight.show(); // We need to initialize all pixels to 'off' by default
+  stripRight.show();
+  Serial.println("Slave is ready!");
 }
 
 void loop() {
   if (BTSerial.available()) {
     char receivedChar = BTSerial.read();
 
-    if (receivedChar == '\r' || receivedChar == '\n')
+    if (receivedChar == '\r' || receivedChar == '\n.')
       return;
 
     Serial.print("Received: ");
@@ -75,7 +76,7 @@ void loop() {
         setColor_Right(0, 0, 0);
       }
     } else {
-      setColor_Left(0, 0, 0); // We need to turn off after 10 seconds
+      setColor_Left(0, 0, 0); // turn off after 10 seconds
       setColor_Right(0, 0, 0);
       isBlinking = false;
     }
