@@ -5,9 +5,6 @@ SoftwareSerial BTSerial(10, 11);  // TX = 10, RX = 11
 const int btnRight = 5;
 const int btnLeft = 6;
 const int btnStop = 7;
-const int trig = 9;
-const int ech = 12; 
-const int buzzer = 4;
 
 bool buttonPressedR = false;
 bool buttonPressedL = false;
@@ -28,13 +25,6 @@ void setup() {
 
 void loop() {
 
-  long sensor = Distance();
-  if(sensor < 50) {
-    Serial.println("Hazard Activate");
-    digitalWrite(buzzer, HIGH);
-    delay(1000);
-    digitalWrite(buzzer, LOW);
-  }
   checkButton(btnRight, buttonPressedR, "R");
   checkButton(btnLeft, buttonPressedL, "L");
   checkButton(btnStop, buttonPressedS, "S");
