@@ -1,37 +1,38 @@
+//Initializedlibrary
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
-
+//Inialize bluetooth commnunication
 SoftwareSerial BTSerial(2, 3);  // TX = 2, RX = 3
-
+//Pin initialized
 #define LED_PIN_LEFT    4
 #define LED_COUNT_LEFT  14
 #define LED_PIN_RIGHT   5
 #define LED_COUNT_RIGHT 14
-
+//Interval
 #define BLINK_DURATION 10000 
 #define BLINK_INTERVAL 500
-
+//Global variable initialized
 char activeCommand = ' ';
 unsigned long blinkStartTime = 0;
 bool isBlinking = false;
-
+//Global function for LED Strip
 Adafruit_NeoPixel stripLeft(LED_COUNT_LEFT, LED_PIN_LEFT, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel stripRight(LED_COUNT_RIGHT, LED_PIN_RIGHT, NEO_GRB + NEO_KHZ800);
-
+//Activate left
 void setColor_Left(int r, int g, int b) {
   for (int i = 0; i < stripLeft.numPixels(); i++) {
     stripLeft.setPixelColor(i, stripLeft.Color(r, g, b));
   }
   stripLeft.show();
 }
-
+//Activate right
 void setColor_Right(int r, int g, int b) {
   for (int i = 0; i < stripRight.numPixels(); i++) {
     stripRight.setPixelColor(i, stripRight.Color(r, g, b));
   }
   stripRight.show();
 }
-
+//Initialize 
 void setup() {
   Serial.begin(9600);
   BTSerial.begin(9600);
@@ -41,8 +42,9 @@ void setup() {
   stripRight.show();
   Serial.println("Slave is ready!");
 }
-
+//Iterate the code
 void loop() {
+  //check if the buttons events activate
   if (BTSerial.available()) {
     char receivedChar = BTSerial.read();
 
@@ -56,8 +58,9 @@ void loop() {
     blinkStartTime = millis();
     isBlinking = true;
   }
-
+  //Activate state for LED
   if (isBlinking) {
+    //blinking for 10 seconds, or overwrite the current state
     unsigned long elapsedTime = millis() - blinkStartTime;
     if (elapsedTime < BLINK_DURATION) {
       if ((elapsedTime / BLINK_INTERVAL) % 2 == 0) {
